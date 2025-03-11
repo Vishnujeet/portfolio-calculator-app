@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioCalculator.Core", "PortfolioCalculatorApp\PortfolioCalculator.Core.csproj", "{4C1AC184-B5F4-4E30-92FE-B600C64F6161}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioCalculator.Domain", "PortfolioCalculator.Domain\PortfolioCalculator.Domain.csproj", "{5E0DB2CA-3B0A-42EB-94A6-2A9A04B60165}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioCalculator.Repository", "PortfolioCalculator.Repository\PortfolioCalculator.Repository.csproj", "{CA8E2D94-6D13-4565-A306-7D497E642DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioCalculator.Api", "PortfolioCalculator.Api\PortfolioCalculator.Api.csproj", "{C16F8509-A241-42FA-8697-5882887BCFDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioCalculator.Console", "PortfolioCalculator.Console\PortfolioCalculator.Console.csproj", "{54632E96-A4AF-4F8C-959D-7878C7F24DF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfollioCalc.Test", "PortfollioCalc.Test\PortfollioCalc.Test.csproj", "{E7AE0741-CA72-456E-8166-DECF31D87578}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C1AC184-B5F4-4E30-92FE-B600C64F6161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C1AC184-B5F4-4E30-92FE-B600C64F6161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C1AC184-B5F4-4E30-92FE-B600C64F6161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C1AC184-B5F4-4E30-92FE-B600C64F6161}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E0DB2CA-3B0A-42EB-94A6-2A9A04B60165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E0DB2CA-3B0A-42EB-94A6-2A9A04B60165}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E0DB2CA-3B0A-42EB-94A6-2A9A04B60165}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E0DB2CA-3B0A-42EB-94A6-2A9A04B60165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA8E2D94-6D13-4565-A306-7D497E642DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA8E2D94-6D13-4565-A306-7D497E642DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA8E2D94-6D13-4565-A306-7D497E642DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA8E2D94-6D13-4565-A306-7D497E642DC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16F8509-A241-42FA-8697-5882887BCFDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16F8509-A241-42FA-8697-5882887BCFDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16F8509-A241-42FA-8697-5882887BCFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16F8509-A241-42FA-8697-5882887BCFDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54632E96-A4AF-4F8C-959D-7878C7F24DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54632E96-A4AF-4F8C-959D-7878C7F24DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54632E96-A4AF-4F8C-959D-7878C7F24DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54632E96-A4AF-4F8C-959D-7878C7F24DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7AE0741-CA72-456E-8166-DECF31D87578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7AE0741-CA72-456E-8166-DECF31D87578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7AE0741-CA72-456E-8166-DECF31D87578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7AE0741-CA72-456E-8166-DECF31D87578}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

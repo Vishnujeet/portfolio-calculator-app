@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PortfolioCalculator.Domain\PortfolioCalculator.Domain.csproj" />
+    <ProjectReference Include="..\PortfolioCalculator.Repository\PortfolioCalculator.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,55 @@
+# Ignore Visual Studio-specific files
+.vscode/
+*.vs
+*.user
+*.suo
+*.cache
+*.dbmdl
+*.jfm
+
+# Ignore build outputs
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.log
+*.csproj.user
+*.pidb
+*.mdb
+*.bak
+
+# Ignore user secrets and sensitive data
+secrets.json
+appsettings.json
+appsettings.*.json
+
+# Ignore dependency files
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+
+# Ignore database and logs
+*.mdf
+*.ldf
+*.db
+logs/
+*.log
+*.tlog
+
+# Ignore test and coverage files
+TestResults/
+coverage/
+*.coverage
+*.trx
+
+# Ignore CSV Data (if applicable)
+Data/*.csv
+
+# Ignore IDE settings
+.idea/
+*.sln.iml
+
+# Ignore Docker-related files
+docker-compose.override.yml
