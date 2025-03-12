@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PortfolioCalculator.Domain\PortfolioCalculator.Domain.csproj" />
     <ProjectReference Include="..\PortfolioCalculator.Repository\PortfolioCalculator.Repository.csproj" />
+    <ProjectReference Include="..\PortfolioCalculator.Utils\PortfolioCalculator.Utils.csproj" />
     <ProjectReference Include="..\PortfolioCalculatorApp\PortfolioCalculator.Core.csproj" />
   </ItemGroup>
 

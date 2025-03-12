@@ -12,15 +12,12 @@ namespace PortfolioCalculator.Core.Strategies
     public class FundInvestmentStrategy : IInvestmentStrategy
     {
         private readonly IPortfolioRepository _repository;
-        private PortfolioService _portfolioService; 
+        private readonly Lazy<PortfolioService> _portfolioService; 
+        private readonly InvestmentStrategyContext _strategyContext; 
 
-        public FundInvestmentStrategy(IPortfolioRepository repository)
+        public FundInvestmentStrategy(IPortfolioRepository repository, Lazy<PortfolioService> portfolioService)
         {
             _repository = repository;
-        }
-
-        public void SetPortfolioService(PortfolioService portfolioService)
-        {
             _portfolioService = portfolioService;
         }
 
@@ -28,19 +25,51 @@ namespace PortfolioCalculator.Core.Strategies
         {
             try
             {
-                if (_portfolioService == null)
-                    throw new InvalidOperationException("PortfolioService has not been set.");
+                // Fetch fund ownership percentage
+                decimal fundPercentage = await _repository.GetFundOwnershipAsync(investment.InvestorId, investment.InvestmentId, date);
 
-                var fundPercentage = await _repository.GetFundOwnershipAsync(investment.InvestorId, investment.InvestmentId, date);
-                var fundValue = await _portfolioService.CalculatePortfolioValueAsync(investment.FondsInvestor, date);
-                return fundPercentage * fundValue;
+                if (fundPercentage <= 0)
+                {
+                    Console.WriteLine($"[DEBUG] Invalid fund ownership for Investment {investment.InvestmentId}: {fundPercentage:P}. Skipping calculation.");
+                    return 0m; // No need to calculate if ownership is 0 or negative
+                }
+
+                var fundInvestments = await _repository.GetInvestmentsInFundAsync(investment.InvestmentId);
+
+                if (fundInvestments == null || !fundInvestments.Any())
+                {
+                    Console.WriteLine($"[DEBUG] No investments found in fund {investment.InvestmentId}.");
+                    return 0m;
+                }
+
+                decimal fundTotalValue = 0;
+                foreach (var fundInvestment in fundInvestments)
+                {
+                    var strategy = _strategyContext.GetStrategy(fundInvestment.InvestmentType);
+
+                    decimal investmentValue = await strategy.CalculateValueAsync(fundInvestment, date);
+
+                    Console.WriteLine($"[DEBUG] Sub-investment {fundInvestment.InvestmentId} Value: {investmentValue:C}");
+
+                    fundTotalValue += investmentValue;  // Accumulate total fund value
+                }
+
+                decimal result = fundPercentage * fundTotalValue;
+
+                Console.WriteLine($"[DEBUG] Fund {investment.InvestmentId} Total Value: {fundTotalValue:C}, Investor's Share: {result:C}");
+
+                return result;  // Return calculated value
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error calculating fund investment value: {ex.Message}");
-                return 0m;
+                Console.WriteLine($"[ERROR] Fund calculation failed for {investment.InvestmentId}: {ex.Message}");
+                return 0m;  
             }
         }
+
+
+
     }
+
 
 }

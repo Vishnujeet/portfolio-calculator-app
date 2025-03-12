@@ -1,39 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PortfolioCalculator.Core.Interface;
+﻿using PortfolioCalculator.Core.Interface;
 using PortfolioCalculator.Core.Strategies;
+using PortfolioCalculator.Domain;
 using PortfolioCalculator.Repository;
 
 namespace PortfolioCalculator.Core
 {
     public class InvestmentStrategyContext
     {
-        private readonly IPortfolioRepository _repository;
-        private readonly Dictionary<string, IInvestmentStrategy> _strategies;
-        private readonly FundInvestmentStrategy _fundStrategy;
+        private readonly Dictionary<InvestmentType, IInvestmentStrategy> _strategies;
 
-        public InvestmentStrategyContext(IPortfolioRepository repository)
+        public InvestmentStrategyContext(
+            ShareInvestmentStrategy shareStrategy,
+            RealEstateInvestmentStrategy realEstateStrategy,
+            FundInvestmentStrategy fundStrategy)
         {
-            _repository = repository;
-            _fundStrategy = new FundInvestmentStrategy(_repository); 
-
-            _strategies = new Dictionary<string, IInvestmentStrategy>
-            {
-                { "Stock", new ShareInvestmentStrategy(_repository) },
-                { "RealEstate", new RealEstateInvestmentStrategy(_repository) },
-                { "Fonds", _fundStrategy }
-            };
+            _strategies = new Dictionary<InvestmentType, IInvestmentStrategy>
+        {
+            { InvestmentType.Stock, shareStrategy },
+            { InvestmentType.RealEstate, realEstateStrategy },
+            { InvestmentType.Fonds, fundStrategy }
+        };
         }
 
-        public void SetPortfolioService(PortfolioService portfolioService)
-        {
-            _fundStrategy.SetPortfolioService(portfolioService); 
-        }
-
-        public IInvestmentStrategy GetStrategy(string investmentType)
+        public IInvestmentStrategy GetStrategy(InvestmentType investmentType)
         {
             return _strategies.TryGetValue(investmentType, out var strategy)
                 ? strategy

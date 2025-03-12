@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PortfolioCalculator.Domain\PortfolioCalculator.Domain.csproj" />
+    <ProjectReference Include="..\PortfolioCalculator.Utils\PortfolioCalculator.Utils.csproj" />
 	  <None Update="Data\*">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

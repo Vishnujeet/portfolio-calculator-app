@@ -10,9 +10,10 @@ namespace PortfolioCalculator.Domain
     {
         public string InvestorId { get; set; }
         public string InvestmentId { get; set; }
-        public string InvestmentType{ get; set; }
+        public InvestmentType InvestmentType { get; set; }
         public string ISIN { get; set; }
         public string FondsInvestor { get; set; }
+        public string City { get; set; }
     }
 
 }

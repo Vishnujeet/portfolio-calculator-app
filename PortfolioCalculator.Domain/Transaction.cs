@@ -10,13 +10,18 @@ namespace PortfolioCalculator.Domain
     {
         Stock,
         RealEstate,
-        Fonds
+        Fonds,
+        Percentage,
+        Estate,
+        Shares,
+        Building,
+        Sell
     }
 
-    public class Transaction 
+    public class Transaction
     {
-        public string InvestmentId { get; set; } 
-        public string Type { get; set; }
+        public string InvestmentId { get; set; }
+        public InvestmentType Type { get; set; }
         public DateTime Date { get; set; }
         public decimal Value { get; set; }
     }
