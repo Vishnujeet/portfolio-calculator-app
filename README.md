@@ -143,11 +143,15 @@ public void ConfigureServices(IServiceCollection services)
 
 ## 🔄 How It Works
 
-1️⃣ **User Inputs** a date (`yyyy-MM-dd`) and an Investor ID.
-2️⃣ The system **fetches** related investments from the `PortfolioRepository`.
-3️⃣ The **InvestmentStrategyContext** selects the correct strategy based on the investment type.
-4️⃣ The corresponding **strategy** calculates the investment’s value.
-5️⃣ The **PortfolioService** aggregates values and **displays** the total portfolio value.
+        1️⃣ **User Inputs** a date (`yyyy-MM-dd`) and an Investor ID. `
+
+        2️⃣ The system **fetches** related investments from the `PortfolioRepository`.
+        
+        3️⃣ The **InvestmentStrategyContext** selects the correct strategy based on the investment type.`
+        
+        4️⃣ The corresponding **strategy** calculates the investment’s value.`
+      
+        5️⃣ The **PortfolioService** aggregates values and **displays** the total portfolio value.  `
 
 ## 🖥 Usage
 
