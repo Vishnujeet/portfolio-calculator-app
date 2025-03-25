@@ -16,7 +16,7 @@ namespace PortfolioCalculator.Core
             _strategyContext = strategyContext;
             _logger = logger;
         }
-        public async Task<Dictionary<string, decimal>> GetPortfolioBreakdownAsync(string investorId, DateTime date)
+        public async Task<decimal> GetTotalPortfolioValueAsync(string investorId, DateTime date)
         {
             var breakdown = new Dictionary<string, decimal>
             {
@@ -25,7 +25,7 @@ namespace PortfolioCalculator.Core
                 { "Fonds", await CalculateFondsValueAsync(investorId, date) }
             };
 
-            return breakdown;
+            return breakdown.Values.Sum();
         }
 
         // Method to Calculate Stock Investments

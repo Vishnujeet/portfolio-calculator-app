@@ -30,7 +30,6 @@ namespace PortfolioCalculator.Core.Strategies
 
                 if (fundPercentage <= 0)
                 {
-                    Console.WriteLine($"[DEBUG] Invalid fund ownership for Investment {investment.InvestmentId}: {fundPercentage:P}. Skipping calculation.");
                     return 0m; // No need to calculate if ownership is 0 or negative
                 }
 
@@ -38,7 +37,6 @@ namespace PortfolioCalculator.Core.Strategies
 
                 if (fundInvestments == null || !fundInvestments.Any())
                 {
-                    Console.WriteLine($"[DEBUG] No investments found in fund {investment.InvestmentId}.");
                     return 0m;
                 }
 
@@ -48,15 +46,10 @@ namespace PortfolioCalculator.Core.Strategies
                     var strategy = _strategyContext.GetStrategy(fundInvestment.InvestmentType);
 
                     decimal investmentValue = await strategy.CalculateValueAsync(fundInvestment, date);
-
-                    Console.WriteLine($"[DEBUG] Sub-investment {fundInvestment.InvestmentId} Value: {investmentValue:C}");
-
                     fundTotalValue += investmentValue;  // Accumulate total fund value
                 }
 
                 decimal result = fundPercentage * fundTotalValue;
-
-                Console.WriteLine($"[DEBUG] Fund {investment.InvestmentId} Total Value: {fundTotalValue:C}, Investor's Share: {result:C}");
 
                 return result;  // Return calculated value
             }

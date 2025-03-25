@@ -15,15 +15,15 @@ namespace PortfolioCalculator.Repository
 
         private PortfolioRepository() { }
 
-        public static async Task<PortfolioRepository> CreateAsync()
+        public static async Task<PortfolioRepository> CreateAsync(ICsvDataLoader csvDataLoader)
         {
             var repository = new PortfolioRepository();
 
             try
             {
-                repository._transactions = await CsvDataLoader.LoadTransactionsAsync("Data/Transactions.csv");
-                repository._investments = await CsvDataLoader.LoadInvestmentsAsync("Data/Investments.csv");
-                repository._stockQuotes = await CsvDataLoader.LoadStockQuotesAsync("Data/Quotes.csv");
+                repository._transactions = await csvDataLoader.LoadTransactionsAsync("Data/Transactions.csv");
+                repository._investments = await csvDataLoader.LoadInvestmentsAsync("Data/Investments.csv");
+                repository._stockQuotes = await csvDataLoader.LoadStockQuotesAsync("Data/Quotes.csv");
 
                 Console.WriteLine("Data successfully loaded.");
             }

@@ -6,29 +6,15 @@ using Microsoft.Extensions.Logging;
 using PortfolioCalculator.Core;
 using PortfolioCalculator.Core.Strategies;
 using PortfolioCalculator.Repository;
+using PortfolioCalculator.Utils;
 
 class Program
 {
     static async Task Main(string[] args)
     {
-        // Set up Dependency Injection (DI) container
-        var serviceProvider = new ServiceCollection()
-     .AddLogging(config => config.AddConsole()) // Logging support
-     .AddSingleton<IPortfolioRepository>(await PortfolioRepository.CreateAsync()) // Load repository
-     .AddSingleton<ShareInvestmentStrategy>()
-     .AddSingleton<RealEstateInvestmentStrategy>()
-     .AddSingleton<FundInvestmentStrategy>(sp => new FundInvestmentStrategy(
-         sp.GetRequiredService<IPortfolioRepository>(),
-         new Lazy<PortfolioService>(() => sp.GetRequiredService<PortfolioService>())
-     )) // Lazy inject PortfolioService
-     .AddSingleton<InvestmentStrategyContext>()
-     .AddSingleton<PortfolioService>() // Register PortfolioService separately
-     .BuildServiceProvider();
-
-
-        // Resolve dependencies
-        var portfolioService = serviceProvider.GetRequiredService<PortfolioService>();
-        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        PortfolioService portfolioService;
+        ILogger<Program> logger;
+        InitializeServices(out portfolioService, out logger);
 
         Console.WriteLine("Enter date (yyyy-MM-dd) and Investor ID separated by ';'");
         var line = Console.ReadLine();
@@ -50,33 +36,12 @@ class Program
 
                 var investorId = input[1];
 
-               
-
-                //decimal portfolioValue = await portfolioService.CalculatePortfolioValueAsync(investorId, date);
-
-
-                //// Stop the loading animation
-                //cts.Cancel();
-                //await loadingTask;
-
-                //Console.WriteLine($"Investor: {investorId}, Date: {date:yyyy-MM-dd}, Portfolio Value: {portfolioValue:C}");
                 // Get section-wise breakdown
-                var breakdown = await portfolioService.GetPortfolioBreakdownAsync(investorId, date);
-                decimal totalPortfolioValue = breakdown.Values.Sum();
-               
-
-
-                Console.WriteLine("\n===== Portfolio Breakdown =====");
-                foreach (var section in breakdown)
-                {
-                    Console.WriteLine($"{section.Key}: {section.Value:C}");
-                }
-                Console.WriteLine("===============================");
-                Console.WriteLine($"Total Portfolio Value: {totalPortfolioValue:C}");
+                var totalPortfolioValue = await portfolioService.GetTotalPortfolioValueAsync(investorId, date);
+                Console.WriteLine();
+               Console.WriteLine("==========================================****====================================");
                 Console.WriteLine($"Investor: {investorId}, Date: {date:yyyy-MM-dd}, Portfolio Value: {totalPortfolioValue:C}");
 
-                //cts.Cancel();  // Stop animation
-                //await loadingTask;  // Ensure animation task exits
             }
             catch (Exception ex)
             {
@@ -90,6 +55,49 @@ class Program
             }
             line = Console.ReadLine();
         }
+    }
+
+    private static void InitializeServices(out PortfolioService portfolioService, out ILogger<Program> logger)
+    {
+        // Set up Dependency Injection (DI) container
+        var serviceCollection = new ServiceCollection();
+
+        // Register logging
+        serviceCollection.AddLogging(config => config.AddConsole());
+
+        // Register CsvDataLoaderWrapper as the implementation of ICsvDataLoader
+        serviceCollection.AddSingleton<ICsvDataLoader, CsvDataLoaderWrapper>();
+
+        // Register PortfolioRepository synchronously
+        serviceCollection.AddSingleton<IPortfolioRepository>(provider =>
+        {
+            var csvDataLoader = provider.GetRequiredService<ICsvDataLoader>();
+            return PortfolioRepository.CreateAsync(csvDataLoader).GetAwaiter().GetResult();
+        });
+
+        // Register investment strategies
+        serviceCollection.AddSingleton<ShareInvestmentStrategy>();
+        serviceCollection.AddSingleton<RealEstateInvestmentStrategy>();
+
+        // Register FundInvestmentStrategy with lazy initialization of PortfolioService
+        serviceCollection.AddSingleton<FundInvestmentStrategy>(sp => new FundInvestmentStrategy(
+            sp.GetRequiredService<IPortfolioRepository>(),
+            new Lazy<PortfolioService>(() => sp.GetRequiredService<PortfolioService>())
+        ));
+
+        // Register InvestmentStrategyContext
+        serviceCollection.AddSingleton<InvestmentStrategyContext>();
+
+        // Register PortfolioService
+        serviceCollection.AddSingleton<PortfolioService>();
+
+        // Build the service provider
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        // Resolve dependencies
+        portfolioService = serviceProvider.GetRequiredService<PortfolioService>();
+        logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        var csvDataLoader = serviceProvider.GetRequiredService<ICsvDataLoader>();
     }
 
     private static async Task ShowLoadingAnimation(CancellationToken token)
